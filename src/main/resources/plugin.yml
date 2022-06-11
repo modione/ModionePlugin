@@ -1,0 +1,38 @@
+name: ModionePlugin3.0
+version: '${project.version}'
+main: me.modione.modioneplugin.ModionePlugin
+api-version: 1.18
+
+commands:
+  gms:
+    description: Sets your Gamemode to Survival-Mode!
+  gmc:
+    description: Sets your Gamemode to Creative-Mode!
+  gmsp:
+      description: Sets your Gamemode to Spectator-Mode!
+  gma:
+    description: Sets your Gamemode to Adventure-Mode!
+  enderchest:
+    description: opens your Ender chest
+    aliases:
+      - ec
+  where:
+    description: Shows where you are
+  day:
+    description: Sets the time to day
+    aliases:
+      - daytime
+      - dt
+  admin:
+    description: Opens the Admin Panel!
+    aliases:
+      - adminpanel
+      - ap
+
+permissions:
+  modione.gamemodes:
+    description: Allows you to change your gamemode.
+    default: op
+  modione.ec:
+    description: Allows you to open one's Ender Chest.
+    default: op
