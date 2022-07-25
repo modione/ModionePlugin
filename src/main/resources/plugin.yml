@@ -6,16 +6,21 @@ api-version: 1.18
 commands:
   gms:
     description: Sets your Gamemode to Survival-Mode!
+    permission: modione.gamemodes
   gmc:
     description: Sets your Gamemode to Creative-Mode!
+    permission: modione.gamemodes
   gmsp:
-      description: Sets your Gamemode to Spectator-Mode!
+    description: Sets your Gamemode to Spectator-Mode!
+    permission: modione.gamemodes
   gma:
     description: Sets your Gamemode to Adventure-Mode!
+    permission: modione.gamemodes
   enderchest:
     description: opens your Ender chest
     aliases:
       - ec
+    permission: op
   where:
     description: Shows where you are
   day:
@@ -23,6 +28,7 @@ commands:
     aliases:
       - daytime
       - dt
+    permission: op
   admin:
     description: Opens the Admin Panel!
     aliases:
@@ -32,7 +38,4 @@ commands:
 permissions:
   modione.gamemodes:
     description: Allows you to change your gamemode.
-    default: op
-  modione.ec:
-    description: Allows you to open one's Ender Chest.
     default: op
