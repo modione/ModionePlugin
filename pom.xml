@@ -31,6 +31,8 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <outputDirectory>C:\Users\carlb\OneDrive\Dokumente\dev\1.19 server\plugins</outputDirectory>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
                         </configuration>
                     </execution>
                 </executions>

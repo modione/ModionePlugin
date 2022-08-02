@@ -51,9 +51,11 @@ class AdminCommand(private val config: FileConfig) : TabExecutor, Listener {
             gui.setItem(4, Material.BEDROCK, "Login", "§7Login to admin panel") { login(player) }
         } else {
             gui.setItem(0, Material.PAPER, "§fLogged in Admins", admins.joinToString("\n") { "§7-" + Bukkit.getPlayer(it)!!.name }) {}
-            gui.setItem(4, Material.COMMAND_BLOCK, "§fCommandStalk", "§7Stalks commands executed by all players") { stalkCommands(player) }
+            gui.setItem(4, Material.COMMAND_BLOCK, "§fCommandStalk",
+                "§7Stalks commands executed by all players \n§7 currently ${if(commandStalks.contains(player))"§aenabled" else "§cdisabled"}")
+            { stalkCommands(player); opened.forEach{openAdminInv(it);}}
             gui.setItem(5, Material.TNT, "§fAdvanced Explosions",
-                description = "§7Explosions make blocks fly currently ${ if (config.getBoolean("advanced-explosions")) "§aenabled" else "§cdisabled"}"
+                description = "§7Explosions make blocks fly \n§7 currently ${ if (config.getBoolean("advanced-explosions"))  "§aenabled" else "§cdisabled"}"
             ) {
                 if (config.getBoolean("advanced-explosions")) {
                     config.set("advanced-explosions", false)
