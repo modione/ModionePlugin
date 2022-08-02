@@ -1,6 +1,7 @@
 package me.modione.modioneplugin
 
 import me.modione.modioneplugin.commands.*
+import me.modione.modioneplugin.listeners.ExplosionsListener
 import me.modione.modioneplugin.utils.FileConfig
 import me.modione.modioneplugin.utils.GUI
 import me.modione.modioneplugin.utils.Lag
@@ -14,7 +15,7 @@ class ModionePlugin : JavaPlugin() {
     init {
         INSTANZ = this
     }
-    private lateinit var config: FileConfig
+    lateinit var config: FileConfig
 
     override fun onEnable() {
         // Register Commands
@@ -28,6 +29,7 @@ class ModionePlugin : JavaPlugin() {
         getCommand("where")?.setExecutor(WhereCommand())
         getCommand("day")?.setExecutor(TimeCommand(1000))
         getCommand("admin")?.setExecutor(AdminCommand(config))
+        Bukkit.getPluginManager().registerEvents(ExplosionsListener(), this)
         Bukkit.getServer().scheduler.scheduleSyncRepeatingTask(this, Lag(), 100L, 1L);
         // Show tps in tab
         server.scheduler.scheduleSyncRepeatingTask(this, {
@@ -39,6 +41,7 @@ class ModionePlugin : JavaPlugin() {
 
     override fun onDisable() {
         // Plugin shutdown logic
+        config.saveconfig()
     }
 
     companion object {

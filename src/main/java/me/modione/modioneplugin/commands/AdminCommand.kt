@@ -52,6 +52,19 @@ class AdminCommand(private val config: FileConfig) : TabExecutor, Listener {
         } else {
             gui.setItem(0, Material.PAPER, "§fLogged in Admins", admins.joinToString("\n") { "§7-" + Bukkit.getPlayer(it)!!.name }) {}
             gui.setItem(4, Material.COMMAND_BLOCK, "§fCommandStalk", "§7Stalks commands executed by all players") { stalkCommands(player) }
+            gui.setItem(5, Material.TNT, "§fAdvanced Explosions",
+                description = "§7Explosions make blocks fly currently ${ if (config.getBoolean("advanced-explosions")) "§aenabled" else "§cdisabled"}"
+            ) {
+                if (config.getBoolean("advanced-explosions")) {
+                    config.set("advanced-explosions", false)
+                    player.sendMessage("${ModionePlugin.PREFIX}§cAdvanced Explosions disabled")
+                } else {
+                    config.set("advanced-explosions", true)
+                    player.sendMessage("${ModionePlugin.PREFIX}§aAdvanced Explosions enabled")
+                }
+                config.saveconfig()
+                opened.forEach { openAdminInv(it) }
+            }
             gui.setItem(17, Material.BEDROCK, "§fLogout", "§7Logout from admin panel") { logout(player) }
         }
         gui.open(player)
