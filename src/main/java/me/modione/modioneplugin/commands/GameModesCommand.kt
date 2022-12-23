@@ -8,26 +8,34 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.util.*
 
 class GameModesCommand(private val mode: GameMode) : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         val player: Player = Utils.getPlayer(sender) ?: return false
-        val message = "${ModionePlugin.PREFIX}${ChatColor.AQUA}You are now in ${ChatColor.RED}${mode.name.toLowerCase()}${ChatColor.AQUA} mode!"
+        val message =
+            "${ModionePlugin.PREFIX}${ChatColor.AQUA}You are now in ${ChatColor.RED}${mode.name.lowercase(Locale.getDefault())}${ChatColor.AQUA} mode!"
 
         if (args.isEmpty()) {
-            if (player.gameMode==mode) player.sendMessage("${ModionePlugin.PREFIX}${ChatColor.RED}You are already in ${mode.name.toLowerCase()} mode!")
+            if (player.gameMode == mode) player.sendMessage("${ModionePlugin.PREFIX}${ChatColor.RED}You are already in ${mode.name.lowercase(
+                Locale.getDefault()
+            )} mode!")
             else {
                 player.gameMode = mode
                 player.sendMessage(message)
             }
-        }else {
-            val target: Player = Utils.getPlayer(args[0], player)?: return false
-            if (target.gameMode==mode) player.sendMessage("${ModionePlugin.PREFIX}${ChatColor.RED}${target.name} is already in ${mode.name.toLowerCase()} mode!")
+        } else {
+            val target: Player = Utils.getPlayer(args[0], player) ?: return false
+            if (target.gameMode == mode) player.sendMessage("${ModionePlugin.PREFIX}${ChatColor.RED}${target.name} is already in ${mode.name.lowercase(
+                Locale.getDefault()
+            )} mode!")
             else {
                 target.gameMode = mode
                 target.sendMessage(message)
-                player.sendMessage("${ModionePlugin.PREFIX}${ChatColor.AQUA}You set ${ChatColor.GOLD}${target.name}${ChatColor.AQUA} to ${ChatColor.RED}${mode.name.toLowerCase()}${ChatColor.AQUA} mode!")
+                player.sendMessage("${ModionePlugin.PREFIX}${ChatColor.AQUA}You set ${ChatColor.GOLD}${target.name}${ChatColor.AQUA} to ${ChatColor.RED}${mode.name.lowercase(
+                    Locale.getDefault()
+                )}${ChatColor.AQUA} mode!")
             }
         }
         return true

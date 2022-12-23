@@ -20,7 +20,7 @@ class FileConfig(folder: String, filename: String) : YamlConfiguration() {
         }
     }
 
-    constructor(filename: String) : this("ModionePlugin3.0", filename) {}
+    constructor(filename: String) : this("ModionePlugin3.0", filename)
 
     fun saveconfig() {
         try {

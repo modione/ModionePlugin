@@ -17,7 +17,7 @@ package me.modione.modioneplugin.utils
 import com.google.gson.Gson
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
-import org.apache.commons.lang.Validate
+import org.apache.commons.lang3.Validate
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -74,7 +74,6 @@ class ItemBuilder {
     @get:Deprecated("Use {@code ItemBuilder#getDurability}")
     var durability: Short = 0
         private set
-        get() = field
     private var enchantments: MutableMap<Enchantment, Int>? = HashMap()
 
     /**
@@ -164,7 +163,7 @@ class ItemBuilder {
     /**
      * Initalizes the ItemBuilder with a [org.bukkit.configuration.file.FileConfiguration] ItemStack in Path
      */
-    constructor(cfg: FileConfiguration, path: String?) : this(cfg.getItemStack(path!!)!!) {}
+    constructor(cfg: FileConfiguration, path: String?) : this(cfg.getItemStack(path!!)!!)
 
     /**
      * Initalizes the ItemBuilder with an already existing [ItemBuilder]

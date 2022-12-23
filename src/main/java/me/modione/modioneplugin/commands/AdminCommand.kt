@@ -22,9 +22,9 @@ class AdminCommand(private val config: FileConfig) : TabExecutor, Listener {
 
     init {
         Bukkit.getPluginManager().registerEvents(this, ModionePlugin.INSTANZ)
-        commands["login"] = {login(it)}
-        commands["logout"] = {logout(it)}
-        commands["commandstalk"] = {stalkCommands(it)}
+        commands["login"] = { login(it) }
+        commands["logout"] = { logout(it) }
+        commands["commandstalk"] = { stalkCommands(it) }
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -41,7 +41,12 @@ class AdminCommand(private val config: FileConfig) : TabExecutor, Listener {
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): MutableList<String>? {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        label: String,
+        args: Array<out String>
+    ): MutableList<String> {
         return commands.keys.toMutableList()
     }
 
@@ -50,12 +55,36 @@ class AdminCommand(private val config: FileConfig) : TabExecutor, Listener {
         if (!isAdmin(player)) {
             gui.setItem(4, Material.BEDROCK, "Login", "§7Login to admin panel") { login(player) }
         } else {
-            gui.setItem(0, Material.PAPER, "§fLogged in Admins", admins.joinToString("\n") { "§7-" + Bukkit.getPlayer(it)!!.name }) {}
-            gui.setItem(4, Material.COMMAND_BLOCK, "§fCommandStalk",
-                "§7Stalks commands executed by all players \n§7 currently ${if(commandStalks.contains(player))"§aenabled" else "§cdisabled"}")
-            { stalkCommands(player); opened.forEach{openAdminInv(it);}}
-            gui.setItem(5, Material.TNT, "§fAdvanced Explosions",
-                description = "§7Explosions make blocks fly \n§7 currently ${ if (config.getBoolean("advanced-explosions"))  "§aenabled" else "§cdisabled"}"
+
+            gui.setItem(
+                0,
+                Material.PAPER,
+                "§fLogged in Admins",
+                admins.joinToString("\n") { "§7-" + Bukkit.getPlayer(it)!!.name }) {}
+
+            gui.setItem(3, Material.CHEST, "§fInvsee", "§7See any Players inventory") {
+                player.closeInventory()
+                player.sendMessage("${ModionePlugin.PREFIX}§7Please specify the Player you want to invsee.")
+                msg[player] = {
+                    val target = Bukkit.getPlayer(it)
+                    if (target == null) {
+                        player.sendMessage("§f${it} §cis not a valid Player.")
+                    } else {
+                        player.sendMessage("§aOpening §f${target.name}§a's inventory!")
+                        player.openInventory(target.inventory)
+                    }
+                }
+            }
+
+            gui.setItem(
+                4, Material.COMMAND_BLOCK, "§fCommandStalk",
+                "§7Stalks commands executed by all players \n§7 currently ${if (commandStalks.contains(player)) "§aenabled" else "§cdisabled"}"
+            )
+            { stalkCommands(player); opened.forEach { openAdminInv(it); } }
+
+            gui.setItem(
+                5, Material.TNT, "§fAdvanced Explosions",
+                description = "§7Explosions make blocks fly \n§7 currently ${if (config.getBoolean("advanced-explosions")) "§aenabled" else "§cdisabled"}"
             ) {
                 if (config.getBoolean("advanced-explosions")) {
                     config.set("advanced-explosions", false)
@@ -67,7 +96,9 @@ class AdminCommand(private val config: FileConfig) : TabExecutor, Listener {
                 config.saveconfig()
                 opened.forEach { openAdminInv(it) }
             }
+
             gui.setItem(17, Material.BEDROCK, "§fLogout", "§7Logout from admin panel") { logout(player) }
+
         }
         gui.open(player)
         opened.add(player)
@@ -116,6 +147,7 @@ class AdminCommand(private val config: FileConfig) : TabExecutor, Listener {
     }
 
     private val msg: MutableMap<Player, (String) -> Unit> = HashMap()
+
     @EventHandler
     fun onPlayerChat(e: PlayerChatEvent) {
         val player = e.player
@@ -127,13 +159,17 @@ class AdminCommand(private val config: FileConfig) : TabExecutor, Listener {
         this.msg.remove(player)
         e.isCancelled = true
     }
+
     private val commandStalks: ArrayList<Player> = ArrayList()
+
     @EventHandler
     fun onCommand(e: PlayerCommandPreprocessEvent) {
         for (player in commandStalks)
             player.sendMessage("${ModionePlugin.PREFIX}§6${e.player.name}§a is executing §c${e.message}")
     }
+
     private val opened: ArrayList<Player> = ArrayList()
+
     @EventHandler
     fun onInvClose(InventoryCloseEvent: org.bukkit.event.inventory.InventoryCloseEvent) {
         val player = InventoryCloseEvent.player as Player

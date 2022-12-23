@@ -1,7 +1,7 @@
 name: ModionePlugin3.0
 version: '${project.version}'
 main: me.modione.modioneplugin.ModionePlugin
-api-version: 1.18
+api-version: 1.19
 
 commands:
   gms:
@@ -34,6 +34,8 @@ commands:
     aliases:
       - adminpanel
       - ap
+  invsee:
+    description: Sees the inv
 
 permissions:
   modione.gamemodes:

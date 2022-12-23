@@ -13,7 +13,7 @@ class Utils {
         fun getPlayer(sender: CommandSender): Player? {
             return if (sender is Player) {
                 sender
-            }else {
+            } else {
                 sender.sendMessage("${ModionePlugin.PREFIX}§cYou must be a player to use this command!")
                 null
             }
@@ -28,7 +28,7 @@ class Utils {
                     sender.sendMessage("${ModionePlugin.PREFIX}§cYou don't have permission to use this command!")
                     null
                 }
-            }else null
+            } else null
         }
 
         fun getPlayer(target: String, player: Player): Player? {
@@ -36,9 +36,10 @@ class Utils {
             return if (re == null) {
                 player.sendMessage("${ModionePlugin.PREFIX}§cPlayer not found!")
                 null
-            }else re
+            } else re
         }
-        fun fillInv(inv:Inventory) {
+
+        fun fillInv(inv: Inventory) {
             // Loop through all slots in the inventory and if it is air set it to a glass pane
             for (i in 0 until inv.size) {
                 if (inv.getItem(i) == null || inv.getItem(i)!!.type == Material.AIR) {

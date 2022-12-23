@@ -3,7 +3,6 @@ package me.modione.modioneplugin
 import me.modione.modioneplugin.commands.*
 import me.modione.modioneplugin.listeners.ExplosionsListener
 import me.modione.modioneplugin.utils.FileConfig
-import me.modione.modioneplugin.utils.GUI
 import me.modione.modioneplugin.utils.Lag
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -15,6 +14,7 @@ class ModionePlugin : JavaPlugin() {
     init {
         INSTANZ = this
     }
+
     lateinit var config: FileConfig
 
     override fun onEnable() {
@@ -29,8 +29,9 @@ class ModionePlugin : JavaPlugin() {
         getCommand("where")?.setExecutor(WhereCommand())
         getCommand("day")?.setExecutor(TimeCommand(1000))
         getCommand("admin")?.setExecutor(AdminCommand(config))
+        getCommand("invsee")?.setExecutor(InvSeeCommand())
         Bukkit.getPluginManager().registerEvents(ExplosionsListener(), this)
-        Bukkit.getServer().scheduler.scheduleSyncRepeatingTask(this, Lag(), 100L, 1L);
+        Bukkit.getServer().scheduler.scheduleSyncRepeatingTask(this, Lag(), 100L, 1L)
         // Show tps in tab
         server.scheduler.scheduleSyncRepeatingTask(this, {
             server.onlinePlayers.forEach {
@@ -46,9 +47,11 @@ class ModionePlugin : JavaPlugin() {
 
     companion object {
         lateinit var INSTANZ: ModionePlugin
-        val PREFIX = ChatColor.WHITE.toString()+"["+ChatColor.GOLD+"Modione"+ChatColor.YELLOW+"Plugin"+ChatColor.WHITE+"]"+ChatColor.RESET+" "
+        val PREFIX =
+            ChatColor.WHITE.toString() + "[" + ChatColor.GOLD + "Modione" + ChatColor.YELLOW + "Plugin" + ChatColor.WHITE + "]" + ChatColor.RESET + " "
+
         fun log(text: String) {
-            INSTANZ.logger.info(PREFIX+text)
+            INSTANZ.logger.info(PREFIX + text)
         }
     }
 }

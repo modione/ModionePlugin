@@ -22,6 +22,7 @@ class ExplosionsListener : Listener {
             }
         }
     }
+
     private fun bounceBlock(b: Block?, source: Location) {
         if (b == null) return
         val fb: FallingBlock = b.world.spawnFallingBlock(

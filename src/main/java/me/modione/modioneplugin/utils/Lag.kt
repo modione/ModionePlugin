@@ -21,7 +21,7 @@ class Lag : Runnable {
             }
             val target = (TICK_COUNT - 1 - ticks) % TICKS.size
             val elapsed = System.currentTimeMillis() - TICKS[target]
-            return ((ticks / (elapsed / 1000.0)) * 10).roundToInt() /10.0
+            return ((ticks / (elapsed / 1000.0)) * 10).roundToInt() / 10.0
         }
     }
 }
