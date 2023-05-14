@@ -1,6 +1,7 @@
 package me.modione.modioneplugin
 
 import me.modione.modioneplugin.commands.*
+import me.modione.modioneplugin.listeners.ChatListener
 import me.modione.modioneplugin.listeners.ExplosionsListener
 import me.modione.modioneplugin.utils.FileConfig
 import me.modione.modioneplugin.utils.Lag
@@ -13,14 +14,11 @@ class ModionePlugin : JavaPlugin() {
 
     init {
         INSTANZ = this
+        saveDefaultConfig()
+        ModionePlugin.config = FileConfig("config.yml")
     }
-
-    lateinit var config: FileConfig
-
     override fun onEnable() {
         // Register Commands
-        saveDefaultConfig()
-        config = FileConfig("config.yml")
         getCommand("gms")?.setExecutor(GameModesCommand(GameMode.SURVIVAL))
         getCommand("gmc")?.setExecutor(GameModesCommand(GameMode.CREATIVE))
         getCommand("gma")?.setExecutor(GameModesCommand(GameMode.ADVENTURE))
@@ -28,9 +26,14 @@ class ModionePlugin : JavaPlugin() {
         getCommand("enderchest")?.setExecutor(EnderChestCommand())
         getCommand("where")?.setExecutor(WhereCommand())
         getCommand("day")?.setExecutor(TimeCommand(1000))
-        getCommand("admin")?.setExecutor(AdminCommand(config))
+        getCommand("admin")?.setExecutor(AdminCommand())
         getCommand("invsee")?.setExecutor(InvSeeCommand())
+        getCommand("offline")?.setExecutor(OfflineCommand())
+        getCommand("rules")?.setExecutor(RulesCommand())
         Bukkit.getPluginManager().registerEvents(ExplosionsListener(), this)
+        Bukkit.getPluginManager().registerEvents(ChatListener(), this)
+        Bukkit.getPluginManager().registerEvents(AdminCommand(), this)
+        Bukkit.getPluginManager().registerEvents(OfflineCommand(), this)
         Bukkit.getServer().scheduler.scheduleSyncRepeatingTask(this, Lag(), 100L, 1L)
         // Show tps in tab
         server.scheduler.scheduleSyncRepeatingTask(this, {
@@ -42,11 +45,11 @@ class ModionePlugin : JavaPlugin() {
 
     override fun onDisable() {
         // Plugin shutdown logic
-        config.saveconfig()
     }
 
     companion object {
         lateinit var INSTANZ: ModionePlugin
+        lateinit var config: FileConfig
         val PREFIX =
             ChatColor.WHITE.toString() + "[" + ChatColor.GOLD + "Modione" + ChatColor.YELLOW + "Plugin" + ChatColor.WHITE + "]" + ChatColor.RESET + " "
 

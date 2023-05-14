@@ -21,12 +21,18 @@ class GUI(name: String, size: Int) : Listener {
         items[slot] = onClick
     }
 
-    fun setItem(slot: Int, item: ItemStack, onClick: Unit) {
+    fun setItem(slot: Int, item: ItemStack, onClick: (InventoryClickEvent) -> Unit) {
         inv.setItem(slot, item)
+        items[slot] = onClick
     }
 
-    fun open(player: org.bukkit.entity.Player) {
-        Utils.fillInv(inv)
+    fun addItem(item: ItemStack, onClick: (InventoryClickEvent) -> Unit) {
+        inv.addItem(item)
+        items[inv.indexOf(item)] = onClick
+    }
+
+    fun open(player: org.bukkit.entity.Player, fill: Boolean) {
+        if (fill) Utils.fillInv(inv)
         player.openInventory(inv)
     }
 

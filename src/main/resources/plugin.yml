@@ -36,8 +36,15 @@ commands:
       - ap
   invsee:
     description: Sees the inv
+  offline:
+    description: Sees all offline player
+  rules:
+    description: Change the game rules
+    permission: op
 
 permissions:
   modione.gamemodes:
     description: Allows you to change your gamemode.
     default: op
+  modione.ec:
+    description: Allows you to open others Enderchest.
