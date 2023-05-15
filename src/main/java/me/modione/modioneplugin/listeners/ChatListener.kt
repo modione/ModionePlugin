@@ -18,7 +18,9 @@ class ChatListener : Listener {
             return
         }
         val message = e.message
-        msg[player]?.invoke(message)
+        if (msg[player] != null) {
+            msg[player]?.invoke(message)
+        }
         msg.remove(player)
         e.isCancelled = true
     }

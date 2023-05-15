@@ -34,8 +34,8 @@ class RulesCommand: CommandExecutor {
     companion object {
         fun rulesInventory(player: Player, world: World) {
             val gui = GUI("§fGame rules", 54)
-            world.gameRules.forEach { rule_name ->
-                val rule = GameRule.getByName(rule_name)
+            world.gameRules.forEach { ruleName ->
+                val rule = GameRule.getByName(ruleName)
                 val value = world.getGameRuleValue(rule as GameRule<*>)
                 var description = ""
                 description = if (value is Boolean) {
@@ -45,22 +45,22 @@ class RulesCommand: CommandExecutor {
                 }
                 gui.addItem(
                     ItemBuilder(Material.COMMAND_BLOCK)
-                            .displayname("§f$rule_name")
+                            .displayname("§f$ruleName")
                             .lore(description)
                             .build()!!
                     ) {
                         if (value is Boolean) {
-                            world.setGameRuleValue(rule_name, (!(value as Boolean)).toString())
+                            world.setGameRuleValue(ruleName, (!value).toString())
                             rulesInventory(player, world)
                         }
                         else {
-                            player.sendMessage("${ModionePlugin.PREFIX}§7Enter new value for §f$rule_name§7 old value: §l$value")
+                            player.sendMessage("${ModionePlugin.PREFIX}§7Enter new value for §f$ruleName")
                             player.closeInventory()
                             ChatListener.msg[player] = {
                                 if (it.toIntOrNull() == null) player.sendMessage("${ModionePlugin.PREFIX}§cInvalid value")
                                 else {
-                                    world.setGameRuleValue(rule_name, it)
-                                    player.sendMessage("${ModionePlugin.PREFIX}§7Set §f$rule_name§7 to §l$it")
+                                    world.setGameRuleValue(ruleName, it)
+                                    player.sendMessage("${ModionePlugin.PREFIX}§7Set §f$ruleName§7 to §l$it")
                                 }
                                 rulesInventory(player, world)
                             }
