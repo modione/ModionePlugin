@@ -50,8 +50,7 @@ class ModionePlugin : JavaPlugin() {
     companion object {
         lateinit var INSTANZ: ModionePlugin
         lateinit var config: FileConfig
-        val PREFIX =
-            ChatColor.WHITE.toString() + "[" + ChatColor.GOLD + "Modione" + ChatColor.YELLOW + "Plugin" + ChatColor.WHITE + "]" + ChatColor.RESET + " "
+        val PREFIX = ChatColor.WHITE.toString() + "[" + ChatColor.GOLD + "Modione" + ChatColor.YELLOW + "Plugin" + ChatColor.WHITE + "]" + ChatColor.RESET + " "
 
         fun log(text: String) {
             INSTANZ.logger.info(PREFIX + text)
